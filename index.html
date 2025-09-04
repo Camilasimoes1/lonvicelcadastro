@@ -281,19 +281,27 @@ footer {
 
    </style>
   <script src="script.js">
-    document.getElementById("cadastroForm").addEventListener("submit", function(e) {
-  e.preventDefault();
+ const GOOGLE_FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSd5-PFpY1qahMbxLmmx9H96EfGDJI0gzLMpRytkSF_vs_-dRw/viewform?usp=header";
+  document.getElementById("cadastroForm").addEventListener("submit", function(e) {
+    e.preventDefault();
 
-  const nome = document.getElementById("nome").value;
-  const cpf = document.getElementById("cpf").value;
-  const email = document.getElementById("email").value;
-  const estado = document.getElementById("estado").value;
+    const formData = new FormData();
+    formData.append("entry.123456", document.getElementById("nome").value); 
+    formData.append("entry.654321", document.getElementById("cpf").value);
+    formData.append("entry.112233", document.getElementById("email").value);
+    formData.append("entry.332211", document.getElementById("estado").value);
 
-  alert(`Cadastro realizado com sucesso!\n\nNome: ${nome}\nCPF: ${cpf}\nEmail: ${email}\nEstado: ${estado}`);
-
-  this.reset();
-});
-
+    fetch(GOOGLE_FORM_URL, {
+      method: "POST",
+      body: formData,
+      mode: "no-cors"
+    }).then(() => {
+      alert("Registro enviado con éxito!");
+      this.reset();
+    }).catch(() => {
+      alert("Hubo un error, intenta nuevamente.");
+    });
+  });
   </script>
 </body>
 </html>
